@@ -2,6 +2,7 @@ import NavBar from "@/components/NavBar";
 import HeroSection from "@/components/HeroSection";
 import Image from "next/image";
 import Carousel from "@/components/carousel";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   let slides = [
@@ -14,7 +15,7 @@ export default function Home() {
       <NavBar />
       <HeroSection />
       <Carousel slides={slides}/>
-      <h1>Hola mundo</h1>
+      <Footer />
     </div>
   );
 }
