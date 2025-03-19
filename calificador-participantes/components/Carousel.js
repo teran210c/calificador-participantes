@@ -30,13 +30,13 @@ export default function Carousel({ slides }) {
             key={i}
             className="w-full flex-shrink-0 p-4 bg-white rounded-lg shadow-md"
           >
-            <h2 className="text-xl font-bold mb-2">{s.title}</h2>
+            <h2 className="text-xl text-center font-bold mb-2">{s.title}</h2>
             <img
               src={s.image}
               alt={`Slide ${i}`}
-              className="w-full h-60 object-cover rounded-md"
+              className="w-full h-85 object-cover rounded-md"
             />
-            <p className="text-gray-600 mt-2">{s.subtitle}</p>
+            <p className="text-gray-600 text-center mt-2">{s.subtitle}</p>
           </div>
         ))}
       </div>
@@ -58,7 +58,7 @@ export default function Carousel({ slides }) {
             onClick={() => setCurrent(i)}
             key={"circle" + i}
             className={`rounded-full w-5 h-5 cursor-pointer ${
-              i === current ? "bg-white" : "bg-gray-500"
+              i === current ? "bg-blue-950" : "bg-gray-500"
             }`}
           ></div>
         ))}
