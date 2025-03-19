@@ -25,12 +25,24 @@ export default function Carousel({ slides }) {
           transform: `translateX(-${current * 100}%)`,
         }}
       >
-        {slides.map((s) => {
-          return <img src={s} />;
-        })}
+        {slides.map((s, i) => (
+          <div
+            key={i}
+            className="w-full flex-shrink-0 p-4 bg-white rounded-lg shadow-md"
+          >
+            <h2 className="text-xl font-bold mb-2">{s.title}</h2>
+            <img
+              src={s.image}
+              alt={`Slide ${i}`}
+              className="w-full h-60 object-cover rounded-md"
+            />
+            <p className="text-gray-600 mt-2">{s.subtitle}</p>
+          </div>
+        ))}
       </div>
 
-      <div className="absolute top-0 h-full w-full justify-between items-center flex text-white px-10 text-3xl">
+      {/* Botones de navegación */}
+      <div className="absolute top-0 h-full w-full justify-between items-center flex text-gray px-10 text-3xl">
         <button onClick={previousSlide}>
           <BsFillArrowLeftCircleFill />
         </button>
@@ -39,20 +51,17 @@ export default function Carousel({ slides }) {
         </button>
       </div>
 
+      {/* Indicadores */}
       <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-        {slides.map((s, i) => {
-          return (
-            <div
-              onClick={() => {
-                setCurrent(i);
-              }}
-              key={"circle" + i}
-              className={`rounded-full w-5 h-5 cursor-pointer  ${
-                i == current ? "bg-white" : "bg-gray-500"
-              }`}
-            ></div>
-          );
-        })}
+        {slides.map((_, i) => (
+          <div
+            onClick={() => setCurrent(i)}
+            key={"circle" + i}
+            className={`rounded-full w-5 h-5 cursor-pointer ${
+              i === current ? "bg-white" : "bg-gray-500"
+            }`}
+          ></div>
+        ))}
       </div>
     </div>
   );
