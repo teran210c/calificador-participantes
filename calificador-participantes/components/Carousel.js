@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Carousel = ({ slides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
+  const pathname = usePathname();
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
@@ -42,10 +43,28 @@ const Carousel = ({ slides }) => {
                 alt={slide.title}
                 className="w-full h-40 object-cover rounded-lg mb-4"
               />
+
+{pathname === "/concurso1" && (
+                <div className="mt-4 flex justify-center space-x-2">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <button
+                      key={num}
+                      className="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-700"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        console.log(`Botón ${num} presionado en ${slide.title}`);
+                      }}
+                    >
+                      {num}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}
       </div>
+
 
       {/* Botones de navegación */}
       <button
