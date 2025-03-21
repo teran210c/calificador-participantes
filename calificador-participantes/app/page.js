@@ -9,7 +9,8 @@ export default function Home() {
     {
       title: "Card 1",
       image: "https://w7.pngwing.com/pngs/69/217/png-transparent-number-number-1-miscellaneous-angle-rectangle.png",
-      subtitle: "This is the subtitle of Card 1"
+      subtitle: "This is the subtitle of Card 1",
+      path: "/concurso1"
     },
     {
       title: "Card 2",

@@ -1,68 +1,80 @@
 "use client";
-import { useState } from "react";
-import {
-  BsFillArrowRightCircleFill,
-  BsFillArrowLeftCircleFill,
-} from "react-icons/bs";
-export default function Carousel({ slides }) {
-  let [current, setCurrent] = useState(0);
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
-  let previousSlide = () => {
-    if (current === 0) setCurrent(slides.length - 1);
-    else setCurrent(current - 1);
+const Carousel = ({ slides }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const router = useRouter();
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
 
-  let nextSlide = () => {
-    if (current === slides.length - 1) setCurrent(0);
-    else setCurrent(current + 1);
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+  };
+
+  const handleClick = () => {
+    const currentSlide = slides[currentIndex];
+    if (currentSlide.path) {
+      router.push(currentSlide.path);
+    } else {
+      console.error("No hay ruta definida para este slide.");
+    }
   };
 
   return (
-    <div className="overflow-hidden relative">
-      <div
-        className={`flex transition ease-out duration-40`}
-        style={{
-          transform: `translateX(-${current * 100}%)`,
-        }}
-      >
-        {slides.map((s, i) => (
+    <div className="relative w-full max-w-3xl mx-auto">
+      <div className="overflow-hidden relative h-80">
+        {slides.map((slide, index) => (
           <div
-            key={i}
-            className="w-full flex-shrink-0 p-4 bg-white rounded-lg shadow-md"
+            key={index}
+            className={`absolute inset-0 transition-transform transform ${
+              index === currentIndex ? "translate-x-0" : "translate-x-full"
+            }`}
+            onClick={handleClick}
           >
-            <h2 className="text-xl text-center font-bold mb-2">{s.title}</h2>
-            <img
-              src={s.image}
-              alt={`Slide ${i}`}
-              className="w-full h-85 object-cover rounded-md"
-            />
-            <p className="text-gray-600 text-center mt-2">{s.subtitle}</p>
+            <div className="w-full h-full bg-white p-6 rounded-lg shadow-lg cursor-pointer">
+              <h2 className="text-2xl font-bold mb-4">{slide.title}</h2>
+              <p className="text-gray-600 mb-4">{slide.subtitle}</p>
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-40 object-cover rounded-lg mb-4"
+              />
+            </div>
           </div>
         ))}
       </div>
 
       {/* Botones de navegación */}
-      <div className="absolute top-0 h-full w-full justify-between items-center flex text-gray px-10 text-3xl">
-        <button onClick={previousSlide}>
-          <BsFillArrowLeftCircleFill />
-        </button>
-        <button onClick={nextSlide}>
-          <BsFillArrowRightCircleFill />
-        </button>
-      </div>
+      <button
+        className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2"
+        onClick={prevSlide}
+      >
+        Prev
+      </button>
+      <button
+        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2"
+        onClick={nextSlide}
+      >
+        Next
+      </button>
 
       {/* Indicadores */}
-      <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-        {slides.map((_, i) => (
+      <div className="absolute bottom-0 left-0 right-0 flex justify-center mb-4">
+        {slides.map((_, index) => (
           <div
-            onClick={() => setCurrent(i)}
-            key={"circle" + i}
-            className={`rounded-full w-5 h-5 cursor-pointer ${
-              i === current ? "bg-blue-950" : "bg-gray-500"
+            key={index}
+            className={`w-2 h-2 rounded-full mx-1 ${
+              index === currentIndex ? "bg-gray-800" : "bg-gray-400"
             }`}
-          ></div>
+            onClick={() => setCurrentIndex(index)}
+          />
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default Carousel;
