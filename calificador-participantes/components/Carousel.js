@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+
 const Carousel = ({ slides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
