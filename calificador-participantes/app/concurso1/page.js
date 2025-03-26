@@ -1,25 +1,26 @@
-'use client';
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 import Carousel from "@/components/Carousel";
-import useConcursantes from "@/app/hooks/useConcursantes";
 
+const Concurso1 = () => {
+  const router = useRouter();
+  const { concurso_id } = router.query; // obtenemos el concurso_id desde la URL
 
-export default function Concurso1() {
-  const { concursantes, loading } = useConcursantes();
+  const { concursantes, loading } = useConcursantes(concurso_id);
 
-  if (loading) return <p>Cargando concursantes...</p>;
-
-    return (
-      <>
-      <NavBar />
-      {concursantes.length > 0 ? (
-        <Carousel slides={concursantes} />
-      ) : (
-        <p>No hay concursantes disponibles.</p>
-      )}
-      <Footer />
-      </>
-    )
+  if (!concurso_id) {
+    return <div>Por favor, selecciona un concurso.</div>;
   }
-  
+
+  return (
+    <div>
+      <h1>Concurso {concurso_id}</h1>
+      <Carousel slides={concursantes} loading={loading} />
+    </div>
+  );
+};
+
+export default Concurso1;

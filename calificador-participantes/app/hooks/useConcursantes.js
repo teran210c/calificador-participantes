@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-const useConcursantes = () => {
+const useConcursantes = (concurso_id) => {
   const [concursantes, setConcursantes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchConcursantes = async () => {
+      if (!concurso_id) return; // No hacer nada si no hay concurso_id
+
       try {
-        const response = await fetch("http://localhost:3010/api/concursantes");
+        const response = await fetch(`http://localhost:3010/api/concursantes/${concurso_id}`);
         const data = await response.json();
         // Transformamos los datos al formato esperado por el carrusel
         const formattedData = data.map((c) => ({
@@ -25,7 +27,7 @@ const useConcursantes = () => {
     };
 
     fetchConcursantes();
-  }, []);
+  }, [concurso_id]); // Dependemos de concurso_id para hacer la solicitud
 
   return { concursantes, loading };
 };
