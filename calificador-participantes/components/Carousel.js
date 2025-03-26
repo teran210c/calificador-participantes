@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
@@ -9,16 +10,19 @@ export default function Carousel({ concursoId }) {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
+    if (concursoId) { // Make sure concursoId is available before fetching
+      const fetchData = async () => {
+        try {
         const response = await fetch(`http://localhost:3010/api/concursantes/${concursoId}`);
-        const data = await response.json();
-        setConcursantes(data); // Assuming data is an array of concursantes
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+          const data = await response.json();
+          console.log("Received concursantes data:", data); // Log the data
+          setConcursantes(data); // Assuming data is an array of concursantes
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
   }, [concursoId]);
 
   let previousSlide = () => {
@@ -74,9 +78,7 @@ export default function Carousel({ concursoId }) {
           <div
             onClick={() => setCurrent(i)}
             key={"circle" + i}
-            className={`rounded-full w-5 h-5 cursor-pointer ${
-              i === current ? "bg-blue-950" : "bg-gray-500"
-            }`}
+            className={`rounded-full w-5 h-5 cursor-pointer ${i === current ? "bg-blue-950" : "bg-gray-500"}`}
           ></div>
         ))}
       </div>
