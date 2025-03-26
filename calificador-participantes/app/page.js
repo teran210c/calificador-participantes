@@ -18,8 +18,10 @@ export default function Home() {
     <div>
       <NavBar />
       <HeroSection />
+      <div>
       <ConcursoDropdown onConcursoSelect={handleConcursoSelect} />
-      <Carousel concursoId={concursoId} />
+      {concursoId && <Carousel concursoId={concursoId} />} {/* Only render carousel if concursoId is selected */}
+    </div>
       <Footer />
     </div>
   );
