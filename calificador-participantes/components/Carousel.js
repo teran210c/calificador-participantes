@@ -48,19 +48,34 @@ export default function Carousel({ concursoId }) {
         {concursantes.map((concursante, i) => (
           <div
             key={i}
-            className="w-full flex-shrink-0 p-4 bg-white rounded-lg shadow-md"
+            className="w-full flex-shrink-0 p-4 bg-white rounded-lg shadow-md h-auto sm:h-96 md:h-128 lg:h-128"
             onClick={() => navigateToSlide(`/concurso${concursoId}`)}
           >
             <h2 className="text-xl text-center font-bold mb-2">{concursante.nombre}</h2>
             <img
               src="/images/default.jpg"
               alt={`Concursante ${i}`}
-              className="w-full h-85 object-cover rounded-md"
+              className="w-full h-full object-cover rounded-md"
             />
             <p className="text-gray-600 text-center mt-2">Concurso ID: {concursoId}</p>
           </div>
         ))}
       </div>
+
+      <div className="absolute bottom-16 left-0 right-0 flex justify-center space-x-2 z-10">
+                    {[1, 2, 3, 4, 5].map((num) => (
+                      <button
+                        key={num}
+                        className="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-700"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVote(num); // Aquí envías la calificación
+                        }}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
 
       {/* Navigation buttons */}
       <div className="absolute top-0 h-full w-full justify-between items-center flex text-gray px-10 text-3xl">
