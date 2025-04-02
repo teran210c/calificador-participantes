@@ -46,36 +46,43 @@ const AddConcursanteButton = ({ onAddConcursante, concursoId }) => {
 
   const handleSubmit = async () => {
     if (!nombre.trim()) {
-      setError("Por favor ingrese un nombre")
-      return
+      setError("Por favor ingrese un nombre");
+      return;
     }
-
-    setIsSubmitting(true)
-    setError("")
-
+  
+    setIsSubmitting(true);
+    setError("");
+  
     try {
       const response = await fetch("http://localhost:3010/api/concursantes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, concurso_id: concursoId }),
-      })
-
+      });
+  
       if (!response.ok) {
-        throw new Error("No se pudo agregar el concursante")
+        throw new Error("No se pudo agregar el concursante");
       }
-
-      const newConcursante = await response.json()
-      onAddConcursante(newConcursante)
-      setIsOpen(false)
-      setNombre("")
+  
+      const newConcursante = await response.json();
+  
+      // Adding the new concursante to the parent component
+      onAddConcursante({
+        concursante_id: newConcursante.concursante_id, // Assuming the backend returns this ID
+        nombre: newConcursante.nombre,
+      });
+  
+      // Close modal and clear the input field
+      setIsOpen(false);
+      setNombre("");
     } catch (error) {
-      console.error("Error al agregar concursante:", error)
-      setError(error instanceof Error ? error.message : "Error al agregar concursante")
+      console.error("Error al agregar concursante:", error);
+      setError(error instanceof Error ? error.message : "Error al agregar concursante");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
-
+  };
+  
   // Stop event propagation to prevent carousel navigation
   const handleButtonClick = (e) => {
     e.stopPropagation()
