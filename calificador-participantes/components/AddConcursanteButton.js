@@ -67,10 +67,7 @@ const AddConcursanteButton = ({ onAddConcursante, concursoId }) => {
       const newConcursante = await response.json();
   
       // Adding the new concursante to the parent component
-      onAddConcursante({
-        concursante_id: newConcursante.concursante_id, // Assuming the backend returns this ID
-        nombre: newConcursante.nombre,
-      });
+      await onAddConcursante();
   
       // Close modal and clear the input field
       setIsOpen(false);

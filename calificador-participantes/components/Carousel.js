@@ -37,10 +37,10 @@ const Carousel = ({ concursoId }) => {
   const previousSlide = () => setCurrent(current === 0 ? totalSlides - 1 : current - 1);
   const nextSlide = () => setCurrent(current === totalSlides - 1 ? 0 : current + 1);
 
-  const handleAddConcursante = (newConcursante) => {
-    setConcursantes((prev) => [...prev, newConcursante]);
-    setCurrent(concursantes.length);
+  const handleAddConcursante = async () => {
+    await fetchConcursantes(); // ✅ This will refresh the list
   };
+  
 
   const handleVote = async (calificacion, concursante_id, concurso_id) => {
     if (!concurso_id) {
@@ -69,14 +69,38 @@ const Carousel = ({ concursoId }) => {
     }
   };
   
+  const handleDeleteConcursante = async (concursanteId) => {
+    if (!window.confirm("¿Estás seguro de que quieres eliminar este concursante?")) return;
+  
+    try {
+      const response = await fetch(`http://localhost:3010/api/concursantes/${concursanteId}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) throw new Error("No se pudo eliminar el concursante");
+  
+      // ✅ Update the state to reflect the change
+      setConcursantes((prev) => prev.filter((c) => c.concursante_id !== concursanteId));
+    } catch (error) {
+      console.error("Error eliminando concursante:", error);
+    }
+  };
+  
+
+  
   if (isLoading) return <div className="flex justify-center items-center h-64">Cargando concursantes...</div>;
 
   return (
     <div className="overflow-hidden relative">
       <div className="flex transition ease-out duration-400" style={{ transform: `translateX(-${current * 100}%)` }}>
-        {concursantes.map((concursante, index) => (
-          <ConcursanteCard key={concursante.id || index} concursante={concursante} onVote={handleVote} />
-        ))}
+          {concursantes.map((concursante, index) => (
+            <ConcursanteCard 
+              key={concursante.id || index} 
+              concursante={concursante} 
+              onVote={handleVote} 
+              onDelete={handleDeleteConcursante} // ✅ Pass delete function
+            />
+          ))}
         <AddConcursanteSlide onAdd={handleAddConcursante} concursoId={concursoId} />
       </div>
 
