@@ -1,3 +1,4 @@
+// VoteButtons Component
 const VoteButtons = ({ onVote, fetchData }) => {
   return (
     <div className="flex space-x-2 mt-2">
@@ -18,4 +19,3 @@ const VoteButtons = ({ onVote, fetchData }) => {
 };
 
 export default VoteButtons;
-
