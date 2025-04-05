@@ -25,16 +25,10 @@ export default function Home() {
     <div>
       <NavBar />
       <HeroSection />
-      <AddConcursanteButton
-        onAddConcursante={handleAddConcursante}
-        concursoId={1} // Use a valid concurso ID
-      />
       <div>
       <ConcursoDropdown onConcursoSelect={handleConcursoSelect} />
-      {concursoId && <Carousel concursoId={concursoId} />} {/* Only render carousel if concursoId is selected */}
-    </div>
-    <AddConcursanteButton onAddConcursante={handleAddConcursante} concursoId={concursoId} />
-
+      {concursoId && <Carousel concursoId={concursoId} />}
+      </div>
       <Footer />
     </div>
   );

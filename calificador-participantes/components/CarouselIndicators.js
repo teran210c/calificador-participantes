@@ -1,7 +1,6 @@
 const CarouselIndicators = ({ totalSlides, currentIndex, onSelect }) => {
     return (
-      <div className="absolute bottom-0 py-2 flex justify-center gap-3 w-full z-20 pointer-events-none">
-        {Array.from({ length: totalSlides }).map((_, i) => (
+      <div className="absolute bottom-2 py-2 flex justify-center gap-3 w-full z-20 pointer-events-none">        {Array.from({ length: totalSlides }).map((_, i) => (
           <div
             key={`indicator-${i}`}
             onClick={(e) => {

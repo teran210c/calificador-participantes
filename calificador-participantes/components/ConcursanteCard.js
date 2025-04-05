@@ -1,11 +1,12 @@
 import VoteButtons from "./VoteButtons";
 
 const ConcursanteCard = ({ concursante, onVote, onDelete, fetchConcursantes, concursoId }) => {
+  
   return (
     <div className="w-full flex-shrink-0 p-4 bg-white rounded-lg shadow-md h-auto flex flex-col items-center">
       <h2 className="text-xl text-center font-bold mb-2">{concursante.nombre}</h2>
       <img 
-        src="/images/default.jpg" 
+        src="/default.jpg" 
         alt={`Concursante ${concursante.nombre}`} 
         className="w-full h-full object-cover rounded-md" 
       />
@@ -14,12 +15,12 @@ const ConcursanteCard = ({ concursante, onVote, onDelete, fetchConcursantes, con
       </p>
 
       <VoteButtons
-  onVote={(calificacion) => {
-    console.log("📌 Sending vote:", {
-      calificacion,
-      concursante_id: concursante.concursante_id,
-      concurso_id: concursoId, // ✅ Use concursoId instead of concursante.concurso_id
-    });
+        onVote={(calificacion) => {
+          console.log("📌 Sending vote:", {
+            calificacion,
+            concursante_id: concursante.concursante_id,
+            concurso_id: concursoId, // ✅ Use concursoId instead of concursante.concurso_id
+          });
 
     onVote(calificacion, concursante.concursante_id, concursoId);
   }}

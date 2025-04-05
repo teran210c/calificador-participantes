@@ -103,7 +103,7 @@ const Carousel = ({ concursoId }) => {
   if (isLoading) return <div className="flex justify-center items-center h-64">Cargando concursantes...</div>;
 
   return (
-    <div className="overflow-hidden relative">
+    <div className="overflow-hidden relative pb-20">
       <div className="flex transition ease-out duration-400" style={{ transform: `translateX(-${current * 100}%)` }}>
       {concursantes.map((concursante, index) => (
         <ConcursanteCard
